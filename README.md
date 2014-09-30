@@ -1,4 +1,7 @@
-11037: A fork of 11037
+11038: A fork of 11037
 =====
 
-_umm umm umm Banana_ - the creator of the original 11037's statement on the game
+_umm umm umm Banana_ - CyNinetails, creator 11037
+
+11038 is a small fork of 11037.
+
