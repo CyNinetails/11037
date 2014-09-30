@@ -24,230 +24,143 @@ Module Module1
         mainmenu = Console.ReadLine()
         Select Case mainmenu
             Case 1
-                Call charmake1()
+                newCharacter(1, p1)
+                newCharacter(2, p2)
+                Call play1()
             Case 2
                 Call extra()
         End Select
 
 
     End Sub
-    Sub charmake1()
-        Dim charmen1 As String
 
-        Console.Clear()
-        Console.WriteLine("Please enter character name.")
+    Sub assignCharacterInformation(ByVal obj As _11038Player, ByVal a() As Integer)
+        obj.HP = a(0)
+        obj.MP = a(1)
+        obj.str = a(2)
+        obj.luk = a(3)
+        obj.int = a(4)
+        obj.def = a(5)
+    End Sub
+
+    Sub displayCharacterInformation(ByVal obj As _11038Player)
+        Console.WriteLine("Name: " + obj.name)
+        Console.WriteLine("Health: " + CStr(obj.HP))
+        Console.WriteLine("Mana: " + CStr(obj.MP))
+        Console.WriteLine("Strength: " + CStr(obj.str))
+        Console.WriteLine("Luck: " + CStr(obj.luk))
+        Console.WriteLine("Intelligence: " + CStr(obj.int))
+        Console.WriteLine("Agility: " + CStr(obj.agi))
+        Console.WriteLine("Defence: " + CStr(obj.def))
+    End Sub
+
+    Function randomNumber(ByVal bound As Integer)
+        Randomize()
+        Return Int(Rnd() * bound + 1)
+    End Function
+
+    Sub newCharacter(ByVal no As Integer, ByVal obj As _11038Player)
+        Console.WriteLine("player " + no.ToString + ", please enter your character name.")
         p1.name = Console.ReadLine()
         Do
-            Randomize()
-            p1.HP = Int(Rnd() * 100 + 1)
-            p1.MP = Int(Rnd() * 100 + 1)
-            p1.str = Int(Rnd() * 30 + 1)
-            p1.luk = Int(Rnd() * 30 + 1)
-            p1.int = Int(Rnd() * 30 + 1)
-            p1.agi = Int(Rnd() * 30 + 1)
-            p1.def = Int(Rnd() * 20 + 1)
-            Console.WriteLine("Name: " + p1.name)
-            Console.WriteLine("Health: " + CStr(p1.HP))
-            Console.WriteLine("Mana: " + CStr(p1.MP))
-            Console.WriteLine("Strength: " + CStr(p1.str))
-            Console.WriteLine("Luck: " + CStr(p1.luk))
-            Console.WriteLine("Intelligence: " + CStr(p1.int))
-            Console.WriteLine("Agility: " + CStr(p1.agi))
-            Console.WriteLine("Defence: " + CStr(p1.def))
-            Console.WriteLine("")
-            Console.WriteLine("Re-roll stats?")
-            charmen1 = Console.ReadLine()
-            If charmen1 = "yes" Then
+            Console.Clear()
+            assignCharacterInformation(p1, {
+                                                randomNumber(100),
+                                                randomNumber(100),
+                                                randomNumber(30),
+                                                randomNumber(30),
+                                                randomNumber(30),
+                                                randomNumber(20)
+                                            })
+            displayCharacterInformation(p1)
+            Console.WriteLine("Re-roll stats? (type 'yes' to reroll)")
+            If Console.ReadLine() = "yes" Then
                 Console.WriteLine("Re-rolling stats")
                 Console.Clear()
-            ElseIf charmen1 = "no" Then
+            Else
                 Console.Clear()
-                Call charmake2()
+                Exit Do
             End If
         Loop
-    End Sub
-    Sub charmake2()
-        Dim charmen2 As String
-
-        Console.Clear()
-        Console.WriteLine("Please enter character name.")
-        p2.name = Console.ReadLine()
         Do
-            Randomize()
-            p2.HP = Int(Rnd() * 100 + 1)
-            p2.MP = Int(Rnd() * 100 + 1)
-            p2.str = Int(Rnd() * 30 + 1)
-            p2.luk = Int(Rnd() * 30 + 1)
-            p2.int = Int(Rnd() * 30 + 1)
-            p2.agi = Int(Rnd() * 30 + 1)
-            p2.def = Int(Rnd() * 20 + 1)
-            Console.WriteLine("Name: " + p2.name)
-            Console.WriteLine("Health: " + CStr(p2.HP))
-            Console.WriteLine("Mana: " + CStr(p2.MP))
-            Console.WriteLine("Strength: " + CStr(p2.str))
-            Console.WriteLine("Luck: " + CStr(p2.luk))
-            Console.WriteLine("Intelligence: " + CStr(p2.int))
-            Console.WriteLine("Agility: " + CStr(p2.agi))
-            Console.WriteLine("Defence: " + CStr(p2.def))
-            Console.WriteLine("")
-            Console.WriteLine("Re-roll stats?")
-            charmen2 = Console.ReadLine()
-            If charmen2 = "yes" Then
-                Console.WriteLine("Re-rolling stats")
-                Console.Clear()
-            ElseIf charmen2 = "no" Then
-                Console.Clear()
-                Call class1()
-            End If
+            Dim clamen2 As Integer
+            Console.WriteLine("player " + no.ToString + ", please select class:")
+            Console.WriteLine("1. Warrior")
+            Console.WriteLine("2. Mage")
+            Console.WriteLine("3. Thief")
+            Console.WriteLine("4. Priest")
+            Console.WriteLine("5. Ranger")
+            Console.WriteLine("6. Summoner")
+            Console.WriteLine("7. Dark knight")
+            Console.WriteLine("8. Hacker Artist")
+            clamen2 = Console.ReadLine()
+            Select Case clamen2
+                Case 1
+                    obj.classtype = 1
+                    obj.str = (obj.str + 5)
+                    obj.def = (obj.def + 5)
+                    Exit Do
+                Case 2
+                    obj.classtype = 2
+                    obj.str = Int(obj.str - 5)
+                    obj.MP = (obj.MP + 10)
+                    obj.int = (obj.int + 5)
+                    Exit Do
+                Case 3
+                    obj.classtype = 3
+                    obj.HP = Int(obj.HP - 10)
+                    obj.str = (obj.str + 2)
+                    obj.luk = (obj.luk + 2)
+                    obj.agi = (obj.agi + 3)
+                    Exit Do
+                Case 4
+                    obj.classtype = 4
+                    obj.HP = (obj.HP + 10)
+                    obj.str = Int(obj.str - 5)
+                    Exit Do
+                Case 5
+                    obj.classtype = 5
+                    obj.agi = (obj.agi + 5)
+                    Exit Do
+                Case 6
+                    obj.classtype = 6
+                    obj.str = Int(obj.str - 10)
+                    obj.MP = (obj.MP + 20)
+                    obj.int = (obj.int + 2)
+                    Exit Do
+                Case 7
+                    obj.classtype = 7
+                    obj.HP = (obj.HP + 30)
+                    obj.str = (obj.str + 2)
+                    Exit Do
+                Case 8
+                    obj.classtype = 9
+                    progfrg2 = 10
+                    Exit Do
+                Case 9
+                    Console.WriteLine("You entered an illegal command. Please execute numerical proof of execution:")
+                    illi = Console.ReadLine()
+                    If illi = 11037 Then
+                        Console.WriteLine("Thank you. Let's give it all we've got! Its Punishment time!")
+                        Console.ReadLine()
+                        obj.classtype = 9
+                        obj.HP = (obj.HP + 20)
+                        obj.agi = (obj.agi + 2)
+                        obj.str = (obj.str + 2)
+                        obj.def = (obj.def + 2)
+                        obj.int = (obj.int + 2)
+                        obj.luk = (obj.luk + 2)
+                        obj.MP = (obj.MP + 2)
+                    Else
+                        Console.WriteLine("UD ID failed. Resetting...")
+                        Console.ReadLine()
+                        Console.Clear()
+                    End If
+                Case Else
+                    Console.Clear()
+            End Select
         Loop
-    End Sub
-    Sub class1()
-        Dim clamen1 As Integer
-        Console.WriteLine("Player 1, please select class:")
-        Console.WriteLine("1. Warrior")
-        Console.WriteLine("2. Mage")
-        Console.WriteLine("3. Thief")
-        Console.WriteLine("4. Priest")
-        Console.WriteLine("5. Ranger")
-        Console.WriteLine("6. Summoner")
-        Console.WriteLine("7. Dark knight")
-        Console.WriteLine("8. Hacker Artist")
-        clamen1 = Console.ReadLine()
-        Select Case clamen1
-            Case 1
-                p1.classtype = 1
-                p1.str = (p1.str + 5)
-                p1.def = (p1.def + 5)
-            Case 2
-                p1.classtype = 2
-                p1.str = Int(p1.str - 5)
-                p1.MP = (p1.MP + 10)
-                p1.int = (p1.int + 5)
-            Case 3
-                p1.classtype = 3
-                p1.def = Int(p1.def - 10)
-                p1.str = (p1.str + 2)
-                p1.luk = (p1.luk + 2)
-                p1.agi = (p1.agi + 3)
-            Case 4
-                p1.classtype = 4
-                p1.HP = (p1.HP + 10)
-                p1.str = Int(p1.str - 5)
-            Case 5
-                p1.classtype = 5
-                p1.agi = (p1.agi + 5)
-            Case 6
-                p1.classtype = 6
-                p1.str = Int(p1.str - 10)
-                p1.MP = (p1.MP + 20)
-                p1.int = (p1.int + 2)
-            Case 7
-                p1.classtype = 7
-                p1.HP = (p1.HP + 30)
-                p1.str = (p1.str + 2)
-            Case 8
-                p1.classtype = 8
-                progfrg1 = 10
-            Case 9
-                Console.WriteLine("You entered an illegal command. Please execute numerical proof of execution:")
-                illi = Console.ReadLine()
-                If illi = 11037 Then
-                    Console.WriteLine("Thank you. Let's give it all we've got! Its Punishment time!")
-                    Console.ReadLine()
-                    p1.classtype = 9
-                    p1.HP = (p1.HP + 20)
-                    p1.agi = (p1.agi + 2)
-                    p1.str = (p1.str + 2)
-                    p1.def = (p1.def + 2)
-                    p1.int = (p1.int + 2)
-                    p1.luk = (p1.luk + 2)
-                    p1.MP = (p1.MP + 2)
-                Else
-                    Console.WriteLine("UD ID failed. Resetting...")
-                    Console.ReadLine()
-                    Console.Clear()
-                    Call class1()
-                End If
-            Case Else
-                Console.Clear()
-                Call class1()
-        End Select
         Console.Clear()
-        Call class2()
-    End Sub
-    Sub class2()
-        Dim clamen2 As Integer
-        Console.WriteLine("Player 2, please select class:")
-        Console.WriteLine("1. Warrior")
-        Console.WriteLine("2. Mage")
-        Console.WriteLine("3. Thief")
-        Console.WriteLine("4. Priest")
-        Console.WriteLine("5. Ranger")
-        Console.WriteLine("6. Summoner")
-        Console.WriteLine("7. Dark knight")
-        Console.WriteLine("8. Hacker Artist")
-        clamen2 = Console.ReadLine()
-        Select Case clamen2
-            Case 1
-                p2.classtype = 1
-                p2.str = (p2.str + 5)
-                p2.def = (p2.def + 5)
-            Case 2
-                p2.classtype = 2
-                p2.str = Int(p2.str - 5)
-                p2.MP = (p2.MP + 10)
-                p2.int = (p2.int + 5)
-            Case 3
-                p2.classtype = 3
-                p2.HP = Int(p2.HP - 10)
-                p2.str = (p2.str + 2)
-                p2.luk = (p2.luk + 2)
-                p2.agi = (p2.agi + 3)
-            Case 4
-                p2.classtype = 4
-                p2.HP = (p2.HP + 10)
-                p2.str = Int(p2.str - 5)
-            Case 5
-                p2.classtype = 5
-                p2.agi = (p2.agi + 5)
-            Case 6
-                p2.classtype = 6
-                p2.str = Int(p2.str - 10)
-                p2.MP = (p2.MP + 20)
-                p2.int = (p2.int + 2)
-            Case 7
-                p2.classtype = 7
-                p2.HP = (p2.HP + 30)
-                p2.str = (p2.str + 2)
-            Case 8
-                p2.classtype = 9
-                progfrg2 = 10
-            Case 9
-                Console.WriteLine("You entered an illegal command. Please execute numerical proof of execution:")
-                illi = Console.ReadLine()
-                If illi = 11037 Then
-                    Console.WriteLine("Thank you. Let's give it all we've got! Its Punishment time!")
-                    Console.ReadLine()
-                    p2.classtype = 9
-                    p2.HP = (p1.HP + 20)
-                    p2.agi = (p1.agi + 2)
-                    p2.str = (p1.str + 2)
-                    p2.def = (p1.def + 2)
-                    p2.int = (p1.int + 2)
-                    p2.luk = (p1.luk + 2)
-                    p2.MP = (p1.MP + 2)
-                Else
-                    Console.WriteLine("UD ID failed. Resetting...")
-                    Console.ReadLine()
-                    Console.Clear()
-                    Call class1()
-                End If
-            Case Else
-                Console.Clear()
-                Call class2()
-        End Select
-        Console.Clear()
-        Call play1()
     End Sub
     Sub pre1()
         Dim bleedam As Integer
@@ -2352,6 +2265,3 @@ Module Module1
         Console.ReadLine()
     End Sub
 End Module
-
-
-
