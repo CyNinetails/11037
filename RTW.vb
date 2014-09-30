@@ -1,8 +1,87 @@
+Imports System.IO
+
 Class _11038Player
     Public name As String
     Public HP, MP, str, luk, int, agi, def, classtype As Integer
     Public afflic, bloc, itemchoice As Integer
 End Class
+
+Class _11038SaveData
+    Public saveversion As Integer
+    Public savename As String
+    Public s1name, s2name As String
+    Public s1(8) As Integer
+    Public s2(8) As Integer
+End Class
+
+Module _11038IO
+    Function convertGameToSaveData(ByVal p1 As _11038Player, ByVal p2 As _11038Player)
+
+        Dim save As New _11038SaveData
+
+        save.savename = "11038"
+        save.saveversion = 1
+
+        save.s1(0) = p1.HP
+        save.s1(1) = p1.MP
+        save.s1(2) = p1.str
+        save.s1(3) = p1.luk
+        save.s1(4) = p1.int
+        save.s1(5) = p1.agi
+        save.s1(6) = p1.def
+        save.s1(7) = p1.classtype
+
+        save.s2(0) = p2.HP
+        save.s2(1) = p2.MP
+        save.s2(2) = p2.str
+        save.s2(3) = p2.luk
+        save.s2(4) = p2.int
+        save.s2(5) = p2.agi
+        save.s2(6) = p2.def
+        save.s2(7) = p2.classtype
+
+        save.s1name = p1.name
+        save.s2name = p2.name
+
+        Return save
+
+    End Function
+
+    Sub writeSaveData(ByVal obj As _11038SaveData, ByVal name As String)
+        Dim f As StreamWriter = New StreamWriter(name + ".11038")
+        f.WriteLine(obj.savename)
+        f.WriteLine(obj.saveversion)
+        f.WriteLine(obj.s1name)
+        f.WriteLine(obj.s2name)
+
+        f.WriteLine(obj.s1(0)) 'HP
+        f.WriteLine(obj.s1(1)) ' MP
+        f.WriteLine(obj.s1(2)) ' strength
+        f.WriteLine(obj.s1(3)) ' luck
+        f.WriteLine(obj.s1(4)) ' intel.
+        f.WriteLine(obj.s1(5)) ' agi.
+        f.WriteLine(obj.s1(6)) ' def.
+        f.WriteLine(obj.s1(7)) ' class type
+
+        f.WriteLine(obj.s2(0)) 'HP
+        f.WriteLine(obj.s2(1)) ' MP
+        f.WriteLine(obj.s2(2)) ' strength
+        f.WriteLine(obj.s2(3)) ' luck
+        f.WriteLine(obj.s2(4)) ' intel.
+        f.WriteLine(obj.s2(5)) ' agi.
+        f.WriteLine(obj.s2(6)) ' def.
+        f.WriteLine(obj.s2(7)) ' class type
+
+        f.Close()
+    End Sub
+
+    Sub loadSaveData(ByVal name As String)
+        Dim f As StreamReader = New StreamReader(name + ".11038")
+        Dim x As String = f.ReadToEnd
+        Console.WriteLine(x)
+    End Sub
+
+End Module
 
 Module _11038Program
     Dim mainmenu As Integer
@@ -15,12 +94,19 @@ Module _11038Program
     Dim p1 As New _11038Player
     Dim p2 As New _11038Player
 
+    
+    Function returnPlayerObjectData(ByVal obj As _11038Player)
+        Return {obj.HP, obj.MP, obj.str, obj.luk, obj.int, obj.agi, obj.def, obj.classtype}
+    End Function
 
     Sub Main()
+        Dim s As New _11038SaveData
+        s = _11038IO.convertGameToSaveData(p1, p2)
+        loadSaveData("name")
         Console.WriteLine("11038")
         Console.WriteLine("Please select option.")
-        Console.WriteLine("1. Create characters.")
-        Console.WriteLine("2. Class index.")
+        Console.WriteLine("1: New Game")
+        Console.WriteLine("2: Information Index")
         mainmenu = Console.ReadLine()
         Select Case mainmenu
             Case 1
@@ -952,12 +1038,12 @@ Module _11038Program
                         Console.WriteLine("The bomb has dealt " + CStr(dam1) + " damage to " + p1.name)
                         p1.HP = (p1.HP - dam1)
                     Case 7
-                        Console.WriteLine("The mystery was a megalixier!")
+                        Console.WriteLine("The mystery was a mega-elixir!")
                         mprecov = (Rnd() * 50 + 1)
                         p1.MP = (p1.MP + mprecov)
                         hprecov = (Rnd() * 50 + 1)
                         p1.HP = (p1.HP + hprecov)
-                        Console.WriteLine("The megalixier healed " + p1.name + " for " + CStr(hprecov) + " health points and " + CStr(mprecov) + " mana points.")
+                        Console.WriteLine("The mega-elixir healed " + p1.name + " for " + CStr(hprecov) + " health points and " + CStr(mprecov) + " mana points.")
                     Case 8
                         Console.WriteLine("The mystery was a healing ring!")
                         hprecov = (Rnd() * 20 + 1)
@@ -1069,12 +1155,12 @@ Module _11038Program
                         Console.WriteLine("The bomb has dealt " + CStr(dam1) + " damage to " + p2.name)
                         p2.HP = (p2.HP - dam1)
                     Case 7
-                        Console.WriteLine("The mystery was a megalixier!")
+                        Console.WriteLine("The mystery was a mega-elixir!")
                         mprecov = (Rnd() * 50 + 1)
                         p2.MP = (p2.MP + mprecov)
                         hprecov = (Rnd() * 50 + 1)
                         p2.HP = (p2.HP + hprecov)
-                        Console.WriteLine("The megalixier healed " + p2.name + " for " + CStr(hprecov) + " health points and " + CStr(mprecov) + " mana points.")
+                        Console.WriteLine("The mega-elixir healed " + p2.name + " for " + CStr(hprecov) + " health points and " + CStr(mprecov) + " mana points.")
                     Case 8
                         Console.WriteLine("The mystery was a healing ring!")
                         hprecov = (Rnd() * 20 + 1)
@@ -1901,7 +1987,7 @@ Module _11038Program
         Console.WriteLine("4. Mystery")
         Console.WriteLine("5. Bombs")
         Console.WriteLine("6. Healing and mana rings")
-        Console.WriteLine("7. Megalixier")
+        Console.WriteLine("7. Mega Elixir")
         Console.WriteLine("8. Stat up")
         Console.WriteLine("9. R.A.B")
         Console.WriteLine("10. Return to the previous menu")
@@ -1923,7 +2009,7 @@ Module _11038Program
                 Console.WriteLine("These rings are a double edged sword. They will both heal like thier respective potions but will heal both players.")
                 Console.WriteLine("These items can only be obtained in a mystery.")
             Case 7
-                Console.WriteLine("One of the best items. The megalixier will heal both HP an MP with a max value  of 50.")
+                Console.WriteLine("One of the best items. The mega-elixir will heal both HP an MP with a max value  of 50.")
                 Console.WriteLine("This item can only be obtained in a mystery.")
             Case 8
                 Console.WriteLine("There are 2 stat ups that can be obtained. Sterngth up and attack up. They are  self explainitory.")
