@@ -1,8 +1,7 @@
 
 Module Module1
     Dim mainmenu As Integer
-    Dim p1name As String
-    Dim p2name As String
+    Dim p1name, p2name As String
     Dim p1HP, p1MP, p1str, p1luk, p1int, p1agi, p1def, p1class As Integer
     Dim p2HP, p2MP, p2str, p2luk, p2int, p2agi, p2def, p2class As Integer
     Dim afflic1 As Integer
@@ -18,6 +17,7 @@ Module Module1
     Dim progfrg1, progfrg2 As Integer
 
     Sub Main()
+        Console.WriteLine("11037")
         Console.WriteLine("Please select option.")
         Console.WriteLine("1. Create characters.")
         Console.WriteLine("2. Class index.")
@@ -223,6 +223,25 @@ Module Module1
             Case 8
                 p2class = 9
                 progfrg2 = 10
+            Case 9
+                Console.WriteLine("You entered an illegal command. Please execute numerical proof of execution:")
+                illi = Console.ReadLine()
+                If illi = 11037 Then
+                    Console.WriteLine("Thank you. Let's give it all we've got! Its Punishment time!")
+                    Console.ReadLine()
+                    p2class = 9
+                    p2HP = (p1HP + 20)
+                    p2agi = (p1agi + 2)
+                    p2str = (p1str + 2)
+                    p2def = (p1def + 2)
+                    p2int = (p1int + 2)
+                    p2luk = (p1luk + 2)
+                    p2MP = (p1MP + 2)
+                Else
+                    Console.WriteLine("UD ID failed. Resetting...")
+                    Console.ReadLine()
+                    Console.Clear()
+                    Call class1()
             Case Else
                 Console.Clear()
                 Call class2()
