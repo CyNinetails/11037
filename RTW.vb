@@ -2,23 +2,9 @@
 Module Module1
     Dim mainmenu As Integer
     Dim p1name As String
-    Dim p1HP As Integer
-    Dim p1MP As Integer
-    Dim p1str As Integer
-    Dim p1luk As Integer
-    Dim p1int As Integer
-    Dim p1agi As Integer
-    Dim p1def As Integer
     Dim p2name As String
-    Dim p2HP As Integer
-    Dim p2MP As Integer
-    Dim p2str As Integer
-    Dim p2luk As Integer
-    Dim p2int As Integer
-    Dim p2agi As Integer
-    Dim p2def As Integer
-    Dim p1class As Integer
-    Dim p2class As Integer
+    Dim p1HP, p1MP, p1str, p1luk, p1int, p1agi, p1def, p1class As Integer
+    Dim p2HP, p2MP, p2str, p2luk, p2int, p2agi, p2def, p2class As Integer
     Dim afflic1 As Integer
     Dim afflic2 As Integer
     Dim p1bloc As Integer
@@ -29,8 +15,7 @@ Module Module1
     Dim itemchoice1 As Integer
     Dim itemchoice2 As Integer
     Dim sklsel2 As Integer
-    Dim progfrg1 As Integer
-    Dim progfrg2 As Integer
+    Dim progfrg1, progfrg2 As Integer
 
     Sub Main()
         Console.WriteLine("Please select option.")
