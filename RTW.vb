@@ -1,5 +1,4 @@
 Imports System.IO
-#Const gamever = 1
 
 Class _11038Player
     Public name As String
