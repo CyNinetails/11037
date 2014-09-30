@@ -1,4 +1,5 @@
 Imports System.IO
+#Const gamever = 1
 
 Class _11038Player
     Public name As String
@@ -15,6 +16,7 @@ Class _11038SaveData
 End Class
 
 Module _11038IO
+
     Function convertGameToSaveData(ByVal p1 As _11038Player, ByVal p2 As _11038Player)
 
         Dim save As New _11038SaveData
@@ -46,6 +48,37 @@ Module _11038IO
         Return save
 
     End Function
+    Sub convertSaveDataToGame(ByVal saveobj As _11038SaveData, ByVal p1 As _11038Player, ByVal p2 As _11038Player)
+
+        If saveobj.saveversion = 1 Then
+            p1.HP = saveobj.s1(0)
+            p1.MP = saveobj.s1(1)
+            p1.str = saveobj.s1(2)
+            p1.luk = saveobj.s1(3)
+            p1.int = saveobj.s1(4)
+            p1.agi = saveobj.s1(5)
+            p1.def = saveobj.s1(6)
+            p1.classtype = saveobj.s1(7)
+            
+            p1.name = saveobj.s1name
+            p2.name = saveobj.s2name
+
+            p2.HP = saveobj.s2(0)
+            p2.MP = saveobj.s2(1)
+            p2.str = saveobj.s2(2)
+            p2.luk = saveobj.s2(3)
+            p2.int = saveobj.s2(4)
+            p2.agi = saveobj.s2(5)
+            p2.def = saveobj.s2(6)
+            p2.classtype = saveobj.s2(7)
+            Console.WriteLine("Save loaded...")
+            Console.Read()
+        Else
+            Console.WriteLine("This save is from a more recent version of the game.")
+            Console.Read()
+        End If
+
+    End Sub
 
     Sub writeSaveData(ByVal obj As _11038SaveData, ByVal name As String)
         Dim f As StreamWriter = New StreamWriter(name + ".11038")
@@ -75,16 +108,51 @@ Module _11038IO
         f.Close()
     End Sub
 
-    Sub loadSaveData(ByVal name As String)
-        Dim f As StreamReader = New StreamReader(name + ".11038")
-        Dim x As String = f.ReadToEnd
-        Console.WriteLine(x)
-    End Sub
+    Function loadSaveData(ByVal name As String)
+        Dim obj As New _11038SaveData
+        If File.Exists(name + ".11038") Then
+            Dim f As StreamReader = New StreamReader(name + ".11038")
+            Dim t(20) As String
+            Dim i As Integer
+            Do While f.Peek() <> -1
+                t(i) = f.ReadLine()
+                i += 1
+            Loop
+
+            obj.savename = t(0)
+            obj.saveversion = t(1)
+            obj.s1name = t(2)
+            obj.s2name = t(3)
+
+            obj.s1(0) = t(4)
+            obj.s1(1) = t(5)
+            obj.s1(2) = t(6)
+            obj.s1(3) = t(7)
+            obj.s1(4) = t(8)
+            obj.s1(5) = t(9)
+            obj.s1(6) = t(10)
+            obj.s1(7) = t(11)
+
+            obj.s2(0) = t(12)
+            obj.s2(1) = t(13)
+            obj.s2(2) = t(14)
+            obj.s2(3) = t(15)
+            obj.s2(4) = t(16)
+            obj.s2(5) = t(17)
+            obj.s2(6) = t(18)
+            obj.s2(7) = t(19)
+
+            Return obj
+        Else
+            Console.WriteLine("Error: file not found")
+        End If
+
+    End Function
 
 End Module
 
 Module _11038Program
-    Dim mainmenu As Integer
+    Dim mainmenu As String
     Dim illi As Integer
     Dim sklsel As Integer
     Dim def1 As Integer
@@ -100,21 +168,39 @@ Module _11038Program
     End Function
 
     Sub Main()
-        Dim s As New _11038SaveData
-        s = _11038IO.convertGameToSaveData(p1, p2)
-        loadSaveData("name")
         Console.WriteLine("11038")
         Console.WriteLine("Please select option.")
         Console.WriteLine("1: New Game")
-        Console.WriteLine("2: Information Index")
+        Console.WriteLine("2: Load Game")
+        Console.WriteLine("3: Information Index")
         mainmenu = Console.ReadLine()
         Select Case mainmenu
             Case 1
                 newCharacter(1, p1)
                 newCharacter(2, p2)
+                Console.Clear()
                 Call play1()
             Case 2
+                Console.WriteLine("Enter save game name: ")
+                Dim t As New _11038SaveData
+                Dim a As String = Console.ReadLine()
+                If File.Exists(a + ".11038") Then
+                    t = loadSaveData(a)
+                    convertSaveDataToGame(t, p1, p2)
+                    Console.Clear()
+                    Call play1()
+                Else
+                    Console.WriteLine("Error: file not found")
+                    Console.Read()
+                    Console.Clear()
+                    Main()
+                End If
+            Case 3
+                Console.Clear()
                 Call extra()
+            Case Else
+                Console.Clear()
+                Main()
         End Select
 
 
@@ -446,7 +532,7 @@ Module _11038Program
     End Sub
     Sub play1()
         Dim dam1 As Integer
-        Dim menac1 As Integer
+        Dim menac1 As String
         Dim blicount As Integer
         Dim blichance As Integer
         Randomize()
