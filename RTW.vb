@@ -1883,7 +1883,7 @@ Module _11038Program
             Case 8
                 Console.WriteLine("The Hacker Artist is a tricky class. They produce a random number of Program    Fragments or ProgFrags and can spend them to hack the console and change a few  of the values.")
             Case 9
-                Console.WriteLine("This console is an error. Please contact your system...                         zhisfhsaieduhgfiaushgfphgasiguhpaisdug Dpeiasr! 98y4ewqp9gt3wyhugerp873yg987e3")
+                Console.WriteLine("VGhlIEVycm9yIGNsYXNzIGlzIGEgbXlzdGVyeS4gSXQncyBhIHNocm91ZGVkIHNlY3JldC4gQXBwYXJlbnRseS4gdW1tIHVtbSB1bW0gYmFuYW5h Dpeiasr!")
             Case 10
                 Console.Clear()
                 Call extra()
