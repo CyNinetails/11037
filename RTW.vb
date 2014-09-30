@@ -1,4 +1,4 @@
-Class _11037Player
+Class _11038Player
     Public name As String
     Public HP, MP, str, luk, int, agi, def, classtype As Integer
     Public afflic, bloc, itemchoice As Integer
@@ -12,12 +12,12 @@ Module Module1
     Dim def2 As Integer
     Dim sklsel2 As Integer
     Dim progfrg1, progfrg2 As Integer
-    Dim p1 As New _11037Player
-    Dim p2 As New _11037Player
+    Dim p1 As New _11038Player
+    Dim p2 As New _11038Player
 
 
     Sub Main()
-        Console.WriteLine("11037")
+        Console.WriteLine("11038")
         Console.WriteLine("Please select option.")
         Console.WriteLine("1. Create characters.")
         Console.WriteLine("2. Class index.")
