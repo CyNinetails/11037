@@ -1,4 +1,4 @@
-11037
+11037: A fork of 11037
 =====
 
-umm umm umm Banana
+_umm umm umm Banana_ - the creator of the original 11037's statement on the game
