@@ -4,7 +4,7 @@ Class _11038Player
     Public afflic, bloc, itemchoice As Integer
 End Class
 
-Module Module1
+Module _11038Program
     Dim mainmenu As Integer
     Dim illi As Integer
     Dim sklsel As Integer
@@ -2263,5 +2263,11 @@ Module Module1
                 End If
         End Select
         Console.ReadLine()
+    End Sub
+End Module
+
+Module Module1
+    Sub main()
+        _11038Program.Main()
     End Sub
 End Module
