@@ -233,7 +233,7 @@ Module _11038Program
 
     Sub newCharacter(ByVal no As Integer, ByVal obj As _11038Player)
         Console.WriteLine("player " + no.ToString + ", please enter your character name.")
-        p1.name = Console.ReadLine()
+        obj.name = Console.ReadLine()
         Do
             Console.Clear()
             assignCharacterInformation(p1, {
@@ -543,6 +543,7 @@ Module _11038Program
         Console.WriteLine("3. Items")
         Console.WriteLine("4. Defend")
         Console.WriteLine("5. See stats")
+        Console.WriteLine("6. Save Game")
         menac1 = Console.ReadLine()
         Select Case menac1
             Case 1
@@ -593,6 +594,19 @@ Module _11038Program
                 Console.ReadLine()
                 Console.Clear()
                 Call play1()
+            Case 6
+                Console.WriteLine("What do you want to call the file?")
+                Dim sdata As New _11038SaveData
+                Dim n As String = Console.ReadLine()
+                sdata = convertGameToSaveData(p1, p2)
+                _11038IO.writeSaveData(sdata, n)
+                If File.Exists(n + ".11038") Then
+                    Console.WriteLine("File written.")
+                    Console.ReadLine()
+                Else
+                    Console.WriteLine("Error: File not found, even though it should have been written.")
+                    Console.ReadLine()
+                End If
         End Select
 
         Console.Clear()
@@ -810,6 +824,7 @@ Module _11038Program
         Console.WriteLine("3. Items")
         Console.WriteLine("4. Defend")
         Console.WriteLine("5. See stats")
+        Console.WriteLine("6. Save Game")
         menac2 = Console.ReadLine()
         Select Case menac2
             Case 1
@@ -860,6 +875,19 @@ Module _11038Program
                 Console.ReadLine()
                 Console.Clear()
                 Call play2()
+            Case 6
+                Console.WriteLine("What do you want to call the file?")
+                Dim sdata As New _11038SaveData
+                Dim n As String = Console.ReadLine()
+                sdata = convertGameToSaveData(p1, p2)
+                _11038IO.writeSaveData(sdata, n)
+                If File.Exists(n + ".11038") Then
+                    Console.WriteLine("File written.")
+                    Console.ReadLine()
+                Else
+                    Console.WriteLine("Error: File not found, even though it should have been written.")
+                    Console.ReadLine()
+                End If
         End Select
 
         Console.Clear()
