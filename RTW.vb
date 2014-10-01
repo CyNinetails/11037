@@ -8,20 +8,27 @@ End Class
 
 Class _11038SaveData
     Public saveversion As Integer
+    Public saveturns As Integer
     Public savename As String
     Public s1name, s2name As String
     Public s1(8) As Integer
     Public s2(8) As Integer
 End Class
 
+Class _11038GameData
+    Public gameversion As Integer = 2 ' game save version is now 2
+    Public gameturns As Integer = 1
+End Class
+
 Module _11038IO
 
-    Function convertGameToSaveData(ByVal p1 As _11038Player, ByVal p2 As _11038Player)
+    Function convertGameToSaveData(ByVal p1 As _11038Player, ByVal p2 As _11038Player, ByVal g As _11038GameData)
 
         Dim save As New _11038SaveData
 
         save.savename = "11038"
-        save.saveversion = 1
+        save.saveversion = g.gameversion
+        save.saveturns = g.gameturns
 
         save.s1(0) = p1.HP
         save.s1(1) = p1.MP
@@ -47,9 +54,12 @@ Module _11038IO
         Return save
 
     End Function
-    Sub convertSaveDataToGame(ByVal saveobj As _11038SaveData, ByVal p1 As _11038Player, ByVal p2 As _11038Player)
+    Sub convertSaveDataToGame(ByVal saveobj As _11038SaveData, ByVal p1 As _11038Player, ByVal p2 As _11038Player, ByVal g As _11038GameData)
 
-        If saveobj.saveversion = 1 Then
+        If saveobj.saveversion = g.gameversion Then
+
+            saveobj.saveturns = g.gameturns
+
             p1.HP = saveobj.s1(0)
             p1.MP = saveobj.s1(1)
             p1.str = saveobj.s1(2)
@@ -58,7 +68,7 @@ Module _11038IO
             p1.agi = saveobj.s1(5)
             p1.def = saveobj.s1(6)
             p1.classtype = saveobj.s1(7)
-            
+
             p1.name = saveobj.s1name
             p2.name = saveobj.s2name
 
@@ -83,6 +93,7 @@ Module _11038IO
         Dim f As StreamWriter = New StreamWriter(name + ".11038")
         f.WriteLine(obj.savename)
         f.WriteLine(obj.saveversion)
+        f.WriteLine(obj.saveturns)
         f.WriteLine(obj.s1name)
         f.WriteLine(obj.s2name)
 
@@ -120,26 +131,27 @@ Module _11038IO
 
             obj.savename = t(0)
             obj.saveversion = t(1)
-            obj.s1name = t(2)
-            obj.s2name = t(3)
+            obj.saveturns = t(2)
+            obj.s1name = t(3)
+            obj.s2name = t(4)
 
-            obj.s1(0) = t(4)
-            obj.s1(1) = t(5)
-            obj.s1(2) = t(6)
-            obj.s1(3) = t(7)
-            obj.s1(4) = t(8)
-            obj.s1(5) = t(9)
-            obj.s1(6) = t(10)
-            obj.s1(7) = t(11)
+            obj.s1(0) = t(5)
+            obj.s1(1) = t(6)
+            obj.s1(2) = t(7)
+            obj.s1(3) = t(8)
+            obj.s1(4) = t(9)
+            obj.s1(5) = t(10)
+            obj.s1(6) = t(11)
+            obj.s1(7) = t(12)
 
-            obj.s2(0) = t(12)
-            obj.s2(1) = t(13)
-            obj.s2(2) = t(14)
-            obj.s2(3) = t(15)
-            obj.s2(4) = t(16)
-            obj.s2(5) = t(17)
-            obj.s2(6) = t(18)
-            obj.s2(7) = t(19)
+            obj.s2(0) = t(13)
+            obj.s2(1) = t(14)
+            obj.s2(2) = t(15)
+            obj.s2(3) = t(16)
+            obj.s2(4) = t(17)
+            obj.s2(5) = t(18)
+            obj.s2(6) = t(19)
+            obj.s2(7) = t(20)
 
             Return obj
         Else
@@ -160,6 +172,7 @@ Module _11038Program
     Dim progfrg1, progfrg2 As Integer
     Dim p1 As New _11038Player
     Dim p2 As New _11038Player
+    Dim g As New _11038GameData
 
     
     Function returnPlayerObjectData(ByVal obj As _11038Player)
@@ -185,7 +198,7 @@ Module _11038Program
                 Dim a As String = Console.ReadLine()
                 If File.Exists(a + ".11038") Then
                     t = loadSaveData(a)
-                    convertSaveDataToGame(t, p1, p2)
+                    convertSaveDataToGame(t, p1, p2, g)
                     Console.Clear()
                     Call play1()
                 Else
@@ -333,6 +346,7 @@ Module _11038Program
         Loop
         Console.Clear()
     End Sub
+
     Sub pre1()
         Dim bleedam As Integer
         Dim bleecount As Integer
@@ -523,9 +537,6 @@ Module _11038Program
             Case Else
                 Call play1()
         End Select
-        If p1.HP <= 0 Then
-            Call ending()
-        End If
         Console.ReadLine()
         Call play1()
     End Sub
@@ -535,7 +546,7 @@ Module _11038Program
         Dim blicount As Integer
         Dim blichance As Integer
         Randomize()
-
+        Console.WriteLine("Turn " + g.gameturns.ToString)
         Console.WriteLine("Please select action " + p1.name)
         Console.WriteLine("1. Attack")
         Console.WriteLine("2. Abilities")
@@ -597,7 +608,7 @@ Module _11038Program
                 Console.WriteLine("What do you want to call the file?")
                 Dim sdata As New _11038SaveData
                 Dim n As String = Console.ReadLine()
-                sdata = convertGameToSaveData(p1, p2)
+                sdata = convertGameToSaveData(p1, p2, g)
                 _11038IO.writeSaveData(sdata, n)
                 If File.Exists(n + ".11038") Then
                     Console.WriteLine("File written.")
@@ -609,9 +620,6 @@ Module _11038Program
         End Select
 
         Console.Clear()
-        If p2.HP <= 0 Then
-            Call ending()
-        End If
         Call pre2()
     End Sub
     Sub pre2()
@@ -878,7 +886,7 @@ Module _11038Program
                 Console.WriteLine("What do you want to call the file?")
                 Dim sdata As New _11038SaveData
                 Dim n As String = Console.ReadLine()
-                sdata = convertGameToSaveData(p1, p2)
+                sdata = convertGameToSaveData(p1, p2, g)
                 _11038IO.writeSaveData(sdata, n)
                 If File.Exists(n + ".11038") Then
                     Console.WriteLine("File written.")
