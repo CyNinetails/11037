@@ -254,7 +254,7 @@ Module _11038Program
             End If
         Loop
         Do
-            Dim clamen2 As Integer
+            Dim clamen2 As String
             Console.WriteLine("player " + no.ToString + ", please select class:")
             Console.WriteLine("1. Warrior")
             Console.WriteLine("2. Mage")
@@ -1326,6 +1326,18 @@ Module _11038Program
         End Select
     End Sub
     Sub ending()
+        Console.Clear()
+        If p1.HP <= 0 Then
+            Console.WriteLine("RIP Player 1...")
+            Console.ReadLine()
+            Console.Clear()
+            Module1.main()
+        ElseIf p2.HP <= 0 Then
+            Console.WriteLine("RIP Player 2...")
+            Console.ReadLine()
+            Console.Clear()
+            Module1.main()
+        End If
     End Sub
     Sub warskl1()
 
