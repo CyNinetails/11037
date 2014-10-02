@@ -398,7 +398,7 @@ Module _11038Program
                 playeron = 2
             End If
             If playobj.def = 1 Then
-                Console.WriteLine(playobj.name + " relinquishes thier defence.")
+                Console.WriteLine(playobj.name + " relinquishes their defence.")
                 playobj.bloc = playobj.def
             End If
             Select Case playobj.afflic
@@ -455,7 +455,7 @@ Module _11038Program
                 Case 5
                     'confusion'
                     If confcount > 4 Then
-                        Console.WriteLine(playobj.name + " clears thier head of confusion.")
+                        Console.WriteLine(playobj.name + " clears their head of confusion.")
                         confcount = 0
                         playobj.afflic = 0
                     Else
@@ -894,7 +894,7 @@ Module _11038Program
             Case 3
                 'Refresh crystal'
                 p1.afflic = 0
-                Console.WriteLine("The crystal heals " + p1.name + " of thier status conditions.")
+                Console.WriteLine("The crystal heals " + p1.name + " of their status conditions.")
             Case 4
                 'Mystery'
                 mystery = (Rnd() * 10 + 1)
@@ -913,7 +913,7 @@ Module _11038Program
                     Case 3
                         Console.WriteLine("The mystery was a refresh crystal!")
                         p1.afflic = 0
-                        Console.WriteLine("The crystal heals " + p1.name + " of thier status conditions.")
+                        Console.WriteLine("The crystal heals " + p1.name + " of their status conditions.")
                     Case 4
                         Console.WriteLine("The mystery was a defence up!")
                         p1.def = (p1.def + 2)
@@ -1011,7 +1011,7 @@ Module _11038Program
             Case 3
                 'Refresh crystal'
                 p2.afflic = 0
-                Console.WriteLine("The crystal heals " + p2.name + " of thier status conditions.")
+                Console.WriteLine("The crystal heals " + p2.name + " of their status conditions.")
             Case 4
                 'Mystery'
                 mystery = (Rnd() * 10 + 1)
@@ -1030,7 +1030,7 @@ Module _11038Program
                     Case 3
                         Console.WriteLine("The mystery was a refresh crystal!")
                         p2.afflic = 0
-                        Console.WriteLine("The crystal heals " + p2.name + " of thier status conditions.")
+                        Console.WriteLine("The crystal heals " + p2.name + " of their status conditions.")
                     Case 4
                         Console.WriteLine("The mystery was a defence up!")
                         p2.def = (p2.def + 2)
@@ -1867,7 +1867,7 @@ Module _11038Program
             Case 5
                 Console.WriteLine("The ranger is a powerful class but somewhat difficult to use. The main abilities of the class relate around lowering the opponent's stats. However luck plays a slight part of the abilities.")
             Case 6
-                Console.WriteLine("Summoners can call the aid of the Jorn. These summons do strong damage and      inflict a status condition relating to thier respective element. The problem is    that these summons take up a lot of mana.")
+                Console.WriteLine("Summoners can call the aid of the Jorn. These summons do strong damage and      inflict a status condition relating to their respective element. The problem is    that these summons take up a lot of mana.")
             Case 7
                 Console.WriteLine("The dark knight is by far the strongest but riskiest of classes. The dark knight has strong attacks and abilities but nearly all of the abilities require a cost of HP.")
             Case 8
@@ -1910,7 +1910,7 @@ Module _11038Program
                 Console.WriteLine("The other is the trap bomb. Its a trap! It will explode and deal damage to you   with a base attack of 30.")
                 Console.WriteLine("These items can only be obtained in a mystery.")
             Case 6
-                Console.WriteLine("These rings are a double edged sword. They will both heal like thier respective potions but will heal both players.")
+                Console.WriteLine("These rings are a double edged sword. They will both heal like their respective potions but will heal both players.")
                 Console.WriteLine("These items can only be obtained in a mystery.")
             Case 7
                 Console.WriteLine("One of the best items. The mega-elixir will heal both HP an MP with a max value  of 50.")
@@ -2121,7 +2121,7 @@ Module _11038Program
                     Truthbullet = (Truthbullet - 10)
                     Console.WriteLine(p1.name + " enters a Bullet time Battle with " + p2.name)
                     If p1.HP > p2.HP Then
-                        Console.WriteLine(p1.name + " wins the Bullet Time Battle! Thier argument becomes stronger!")
+                        Console.WriteLine(p1.name + " wins the Bullet Time Battle! their argument becomes stronger!")
                         p1.str = (p1.str + 5)
                     Else
                         Console.WriteLine(p1.name + " loses the Bullet Time battle and must face Punishment!")
