@@ -189,6 +189,8 @@ Module _11038Program
         Console.WriteLine("1: New Game")
         Console.WriteLine("2: Load Game")
         Console.WriteLine("3: Information Index")
+        Console.WriteLine("4: About")
+        Console.WriteLine("5: Exit Game")
         mainmenu = Console.ReadLine()
         Select Case mainmenu
             Case 1
@@ -214,6 +216,18 @@ Module _11038Program
             Case 3
                 Console.Clear()
                 Call extra()
+            Case 4
+                Console.Clear()
+                Console.WriteLine("11038")
+                Console.WriteLine("a fork of 11037")
+                Console.WriteLine("11037 was created by CyNinetails")
+                Console.WriteLine("11038 was created by Byron Kellett")
+                Console.Read()
+                Main()
+            Case 5
+                End
+            Case 616
+
             Case Else
                 Console.Clear()
                 Main()
@@ -1829,7 +1843,7 @@ Module _11038Program
         End Select
     End Sub
     Sub chardex()
-        Dim charmendex As Integer
+        Dim charmendex As String
         Console.WriteLine("Please select a class to hear its description.")
         Console.WriteLine("1. Warrior")
         Console.WriteLine("2. Mage")
@@ -1839,8 +1853,7 @@ Module _11038Program
         Console.WriteLine("6. Summoner")
         Console.WriteLine("7. Dark knight")
         Console.WriteLine("8. Hacker Artist")
-        Console.WriteLine("9. ERROR")
-        Console.WriteLine("10. Return to the previous menu")
+        Console.WriteLine("B. Return to the previous menu")
         charmendex = Console.ReadLine()
         Select Case charmendex
             Case 1
