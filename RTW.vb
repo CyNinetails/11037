@@ -191,7 +191,7 @@ Module _11038Program
                 newCharacter(1, p1)
                 newCharacter(2, p2)
                 Console.Clear()
-                Call play1()
+                Call game()
             Case 2
                 Console.WriteLine("Enter save game name: ")
                 Dim t As New _11038SaveData
@@ -200,7 +200,7 @@ Module _11038Program
                     t = loadSaveData(a)
                     convertSaveDataToGame(t, p1, p2, g)
                     Console.Clear()
-                    Call play1()
+                    Call game()
                 Else
                     Console.WriteLine("Error: file not found")
                     Console.Read()
@@ -347,7 +347,7 @@ Module _11038Program
         Console.Clear()
     End Sub
 
-    Sub pre1()
+    Sub game()
         Dim bleedam As Integer
         Dim bleecount As Integer
         Dim paracount As Integer
@@ -365,544 +365,291 @@ Module _11038Program
         Dim drendra As Integer
         Dim Timcount As Integer
         Dim SLCount As Integer
-        Randomize()
-        If def1 = 1 Then
-            Console.WriteLine(p1.name + " relinquishes thier defence.")
-            p1.bloc = p1.def
-        End If
-        Select Case p1.afflic
-            Case 1
-                'poison'
-                If poicount > 4 Then
-                    Console.WriteLine(p1.name + " has treated the poison.")
-                    poicount = 0
-                    p1.afflic = 0
-                ElseIf poicount = 0 Then
-                    poidam = Int(Rnd() * 30 + 1)
-                    p1.HP = (p1.HP - poidam)
-                    Console.WriteLine(p1.name + " has taken " + CStr(poidam) + " points worth of poison damage.")
-                    poicount = (poicount + 1)
-                Else
-                    p1.HP = (p1.HP - poidam)
-                    Console.WriteLine(p1.name + " has taken " + CStr(poidam) + " points worth of poison damage.")
-                    poicount = (poicount + 1)
-                End If
-            Case 2
-                'bleed'
-                If bleecount > 4 Then
-                    Console.WriteLine(p1.name + " has stopped bleeding.")
-                    bleecount = 0
-                    p1.afflic = 0
-                ElseIf bleecount = 0 Then
-                    bleedam = Int(Rnd() * 20 + 1)
-                    p1.HP = (p1.HP - bleedam)
-                    Console.WriteLine(p1.name + " has taken " + CStr(bleedam) + " points worth of bleed damage.")
-                    bleecount = (bleecount + 1)
-                Else
-                    p1.HP = (p1.HP - bleedam)
-                    Console.WriteLine(p1.name + " has taken " + CStr(bleedam) + " points worth of bleed damage.")
-                    bleecount = (bleecount + 1)
-                End If
-            Case 3
-                'paralasys'
-                If paracount > 4 Then
-                    Console.WriteLine(p1.name + " has regained movement.")
-                    paracount = 0
-                    p1.afflic = 0
-                Else
-                    parachance = (Rnd() * 6 + 1)
-                    If parachance < 4 Then
-                        Console.WriteLine(p1.name + " is unable to act due to paralysis.")
-                        Console.ReadLine()
-                        Call pre2()
-                        paracount = (paracount + 1)
-                    Else
-                        paracount = (paracount + 1)
-                        Call play1()
-                    End If
-                End If
-            Case 5
-                'confusion'
-                If confcount > 4 Then
-                    Console.WriteLine(p1.name + " clears thier head of confusion.")
-                    confcount = 0
-                    p1.afflic = 0
-                Else
-                    confact = (Rnd() * 6 + 1)
-                    Select Case confact
-                        Case 1
-                            Console.WriteLine(p1.name + "attacks in confusion!")
-                            confdam = Int((Rnd() * (p1.str) + 1) - (Rnd() * p2.bloc + 1))
-                            Console.WriteLine(p1.name + " has dealt " + CStr(confdam) + " damage to " + p2.name)
-                            p2.HP = (p2.HP - confdam)
-                        Case 2
-                            Console.WriteLine(p1.name + " casts in confusion!")
-                            sklsel = (Rnd() * 5 + 1)
-                            Select Case p1.classtype
-                                Case 1
-                                    Call warskl1()
-                                Case 2
-                                    Call magskl1()
-                                Case 3
-                                    Call thfskl1()
-                                Case 4
-                                    Call pstskl1()
-                                Case 5
-                                    Call rngskl1()
-                                Case 6
-                                    Call smnskl1()
-                                Case 7
-                                    Call dktskl1()
-                            End Select
-                        Case 3
-                            Console.WriteLine(p1.name + " uses a item in confusion!")
 
-                        Case 4
-                            Console.WriteLine(p1.name + " defends in confusion!")
-                            p1.bloc = (p1.bloc + 5)
-                            def1 = 1
-                        Case 5
-                            Console.WriteLine(p1.name + " is to confused to act!")
-                        Case 6
-                            Console.WriteLine(p1.name + " attacks themselves in a fit of confusion!")
-                            confdam = Int((Rnd() * (p1.str) + 1) - (Rnd() * p1.bloc + 1))
-                            Console.WriteLine(p1.name + " has dealt " + CStr(confdam) + " damage to themselves!")
-                            p1.HP = (p1.HP - confdam)
-                    End Select
-                    confcount = (confcount + 1)
-                End If
-            Case 6
-                'doom'
-                If doomcount > 4 Then
-                    p1.HP = 0
-                Else
-                    doomcount = (doomcount + 1)
-                    creepdoom = (5 - doomcount)
-                    Console.WriteLine("The creeping doom approaches! It will get you in " + CStr(creepdoom) + " turns...")
-                End If
-            Case 7
-                'Burned'
-                If burcount > 4 Then
-                    Console.WriteLine(p1.name + " has been extinguised.")
-                    p1.str = (p1.str + 3)
-                    burcount = 0
-                    p1.afflic = 0
-                ElseIf burcount = 0 Then
-                    burdam = Int(Rnd() * 20 + 1)
-                    p1.HP = (p1.HP - burdam)
-                    p1.str = (p1.str - 3)
-                    Console.WriteLine(p1.name + " has taken " + CStr(burdam) + " points worth of burn damage.")
-                    bleecount = (bleecount + 1)
-                Else
-                    p1.HP = (p1.HP - burdam)
-                    Console.WriteLine(p1.name + " has taken " + CStr(burdam) + " points worth of burn damage.")
-                    bleecount = (bleecount + 1)
-                End If
-            Case 8
-                'Drench'
-                If drencount > 4 Then
-                    Console.WriteLine(p1.name + " has dried.")
-                    drencount = 0
-                    p1.afflic = 0
-                ElseIf drencount = 0 Then
-                    drendra = Int(Rnd() * 30 + 1)
-                    p1.MP = (p1.MP - drendra)
-                    Console.WriteLine(p1.name + " has taken " + CStr(drendra) + " mana points worth of drench damage.")
-                    drencount = (drencount + 1)
-                Else
-                    p1.MP = (p1.MP - drendra)
-                    Console.WriteLine(p1.name + " has taken " + CStr(drendra) + " mana points worth of drench damage.")
-                    drencount = (drencount + 1)
-                End If
-            Case 9
-                'Time stop'
-                If Timcount > 3 Then
-                    Console.WriteLine("Time has returned for " + p1.name)
-                    p1.afflic = 0
-                    Timcount = 0
-                Else
-                    Console.WriteLine("Time has stopped for " + p1.name)
-                    Timcount = (Timcount + 1)
-                End If
-            Case 10
-                'Soul lock'
-                If SLCount > 4 Then
-                    Console.WriteLine(p1.name + " has broken all the Soul Locks! They are no longer Soul Locked!")
-                    SLCount = 0
-                    p1.afflic = 0
-                ElseIf SLCount < 4 Then
-                    Console.WriteLine(p1.name + " has broken a Soul Lock! There are " + CStr((5 - SLCount)) + " Soul Locks left!")
-                    SLCount = (SLCount + 1)
-                End If
-            Case Else
-                Call play1()
-        End Select
-        Console.ReadLine()
-        Call play1()
-    End Sub
-    Sub play1()
-        Dim dam1 As Integer
-        Dim menac1 As String
-        Dim blicount As Integer
-        Dim blichance As Integer
-        Randomize()
-        Console.WriteLine("Turn " + g.gameturns.ToString)
-        Console.WriteLine("Please select action " + p1.name)
-        Console.WriteLine("1. Attack")
-        Console.WriteLine("2. Abilities")
-        Console.WriteLine("3. Items")
-        Console.WriteLine("4. Defend")
-        Console.WriteLine("5. See stats")
-        Console.WriteLine("6. Save Game")
-        menac1 = Console.ReadLine()
-        Select Case menac1
-            Case 1
-                If p1.afflic = 4 Then
-                    If blicount > 4 Then
-                        Console.WriteLine(p1.name + " recovers from blindness.")
-                        blicount = 0
-                        dam1 = Int((Rnd() * (p1.str) + 1) - (Rnd() * p2.bloc + 1))
-                        Console.WriteLine(p1.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
-                        p2.HP = (p2.HP - dam1)
+        Dim playobj As _11038Player
+        Dim oppobj As _11038Player
+        Dim playeron As Integer = 0
+        Do
+            If (g.gameturns / 2).ToString.Contains(".") Then
+                playobj = p1
+                oppobj = p2
+                playeron = 1
+            Else
+                playobj = p2
+                oppobj = p1
+                playeron = 2
+            End If
+            If playobj.def = 1 Then
+                Console.WriteLine(playobj.name + " relinquishes thier defence.")
+                playobj.bloc = playobj.def
+            End If
+            Select Case playobj.afflic
+                Case 1
+                    'poison'
+                    If poicount > 4 Then
+                        Console.WriteLine(playobj.name + " has treated the poison.")
+                        poicount = 0
+                        playobj.afflic = 0
+                    ElseIf poicount = 0 Then
+                        poidam = Int(Rnd() * 30 + 1)
+                        playobj.HP = (playobj.HP - poidam)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(poidam) + " points worth of poison damage.")
+                        poicount = (poicount + 1)
                     Else
-                        blichance = (Rnd() * 6 + 1)
-                        If blichance < 4 Then
-                            Console.WriteLine(p1.name + " misses due to blindness!")
-                            blicount = (blicount + 1)
+                        playobj.HP = (playobj.HP - poidam)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(poidam) + " points worth of poison damage.")
+                        poicount = (poicount + 1)
+                    End If
+                Case 2
+                    'bleed'
+                    If bleecount > 4 Then
+                        Console.WriteLine(playobj.name + " has stopped bleeding.")
+                        bleecount = 0
+                        playobj.afflic = 0
+                    ElseIf bleecount = 0 Then
+                        bleedam = Int(Rnd() * 20 + 1)
+                        playobj.HP = (playobj.HP - bleedam)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(bleedam) + " points worth of bleed damage.")
+                        bleecount = (bleecount + 1)
+                    Else
+                        playobj.HP = (playobj.HP - bleedam)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(bleedam) + " points worth of bleed damage.")
+                        bleecount = (bleecount + 1)
+                    End If
+                Case 3
+                    'paralasys'
+                    If paracount > 4 Then
+                        Console.WriteLine(playobj.name + " has regained movement.")
+                        paracount = 0
+                        playobj.afflic = 0
+                    Else
+                        parachance = (Rnd() * 6 + 1)
+                        If parachance < 4 Then
+                            Console.WriteLine(playobj.name + " is unable to act due to paralysis.")
+                            Console.ReadLine()
+                            Call pre2()
+                            paracount = (paracount + 1)
                         Else
-                            dam1 = Int((Rnd() * (p1.str) + 1) - (Rnd() * p2.bloc + 1))
-                            Console.WriteLine(p1.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
+                            paracount = (paracount + 1)
+                            Call play1()
+                        End If
+                    End If
+                Case 5
+                    'confusion'
+                    If confcount > 4 Then
+                        Console.WriteLine(playobj.name + " clears thier head of confusion.")
+                        confcount = 0
+                        playobj.afflic = 0
+                    Else
+                        confact = (Rnd() * 6 + 1)
+                        Select Case confact
+                            Case 1
+                                Console.WriteLine(playobj.name + "attacks in confusion!")
+                                confdam = Int((Rnd() * (playobj.str) + 1) - (Rnd() * oppobj.bloc + 1))
+                                Console.WriteLine(playobj.name + " has dealt " + CStr(confdam) + " damage to " + oppobj.name)
+                                oppobj.HP = (oppobj.HP - confdam)
+                            Case 2
+                                Console.WriteLine(playobj.name + " casts in confusion!")
+                                sklsel = (Rnd() * 5 + 1)
+                                Select Case playobj.classtype
+                                    Case 1
+                                        If playeron = 1 Then
+                                            Call warskl1()
+                                        Else
+                                            Call warskl2()
+                                        End If
+                                    Case 2
+                                        If playeron = 1 Then
+                                            Call magskl1()
+                                        Else
+                                            Call magskl2()
+                                        End If
+                                    Case 3
+                                        If playeron = 1 Then
+                                            Call thfskl1()
+                                        Else
+                                            Call thfskl2()
+                                        End If
+                                    Case 4
+                                        Call pstskl1()
+                                    Case 5
+                                        Call rngskl1()
+                                    Case 6
+                                        Call smnskl1()
+                                    Case 7
+                                        Call dktskl1()
+                                End Select
+                            Case 3
+                                Console.WriteLine(playobj.name + " uses a item in confusion!")
+
+                            Case 4
+                                Console.WriteLine(playobj.name + " defends in confusion!")
+                                playobj.bloc = (playobj.bloc + 5)
+                                def1 = 1
+                            Case 5
+                                Console.WriteLine(playobj.name + " is to confused to act!")
+                            Case 6
+                                Console.WriteLine(playobj.name + " attacks themselves in a fit of confusion!")
+                                confdam = Int((Rnd() * (playobj.str) + 1) - (Rnd() * playobj.bloc + 1))
+                                Console.WriteLine(playobj.name + " has dealt " + CStr(confdam) + " damage to themselves!")
+                                playobj.HP = (playobj.HP - confdam)
+                        End Select
+                        confcount = (confcount + 1)
+                    End If
+                Case 6
+                    'doom'
+                    If doomcount > 4 Then
+                        playobj.HP = 0
+                    Else
+                        doomcount = (doomcount + 1)
+                        creepdoom = (5 - doomcount)
+                        Console.WriteLine("The creeping doom approaches! It will get you in " + CStr(creepdoom) + " turns...")
+                    End If
+                Case 7
+                    'Burned'
+                    If burcount > 4 Then
+                        Console.WriteLine(playobj.name + " has been extinguised.")
+                        playobj.str = (playobj.str + 3)
+                        burcount = 0
+                        playobj.afflic = 0
+                    ElseIf burcount = 0 Then
+                        burdam = Int(Rnd() * 20 + 1)
+                        playobj.HP = (playobj.HP - burdam)
+                        playobj.str = (playobj.str - 3)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(burdam) + " points worth of burn damage.")
+                        bleecount = (bleecount + 1)
+                    Else
+                        playobj.HP = (playobj.HP - burdam)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(burdam) + " points worth of burn damage.")
+                        bleecount = (bleecount + 1)
+                    End If
+                Case 8
+                    'Drench'
+                    If drencount > 4 Then
+                        Console.WriteLine(playobj.name + " has dried.")
+                        drencount = 0
+                        playobj.afflic = 0
+                    ElseIf drencount = 0 Then
+                        drendra = Int(Rnd() * 30 + 1)
+                        playobj.MP = (playobj.MP - drendra)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(drendra) + " mana points worth of drench damage.")
+                        drencount = (drencount + 1)
+                    Else
+                        playobj.MP = (playobj.MP - drendra)
+                        Console.WriteLine(playobj.name + " has taken " + CStr(drendra) + " mana points worth of drench damage.")
+                        drencount = (drencount + 1)
+                    End If
+                Case 9
+                    'Time stop'
+                    If Timcount > 3 Then
+                        Console.WriteLine("Time has returned for " + playobj.name)
+                        playobj.afflic = 0
+                        Timcount = 0
+                    Else
+                        Console.WriteLine("Time has stopped for " + playobj.name)
+                        Timcount = (Timcount + 1)
+                    End If
+                Case 10
+                    'Soul lock'
+                    If SLCount > 4 Then
+                        Console.WriteLine(playobj.name + " has broken all the Soul Locks! They are no longer Soul Locked!")
+                        SLCount = 0
+                        playobj.afflic = 0
+                    ElseIf SLCount < 4 Then
+                        Console.WriteLine(playobj.name + " has broken a Soul Lock! There are " + CStr((5 - SLCount)) + " Soul Locks left!")
+                        SLCount = (SLCount + 1)
+                    End If
+                Case Else
+                    Exit Select
+            End Select
+
+
+            Dim dam1 As Integer
+            Dim menac1 As String
+            Dim blicount As Integer
+            Dim blichance As Integer
+            Randomize()
+            Console.WriteLine("Turn " + g.gameturns.ToString)
+            Console.WriteLine("Please select action " + playobj.name)
+            Console.WriteLine("1. Attack")
+            Console.WriteLine("2. Abilities")
+            Console.WriteLine("3. Items")
+            Console.WriteLine("4. Defend")
+            Console.WriteLine("5. See stats")
+            Console.WriteLine("6. Save Game")
+            menac1 = Console.ReadLine()
+            Select Case menac1
+                Case 1
+                    If playobj.afflic = 4 Then
+                        If blicount > 4 Then
+                            Console.WriteLine(playobj.name + " recovers from blindness.")
+                            blicount = 0
+                            dam1 = Int((Rnd() * (playobj.str) + 1) - (Rnd() * p2.bloc + 1))
+                            Console.WriteLine(playobj.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
                             p2.HP = (p2.HP - dam1)
-                            blicount = (blicount + 1)
-                        End If
-                    End If
-                Else
-                    dam1 = Int((Rnd() * (p1.str) + 1) - (Rnd() * p2.bloc + 1))
-                    Console.WriteLine(p1.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
-                    p2.HP = (p2.HP - dam1)
-                End If
-                Console.ReadLine()
-            Case 2
-                Call ab1()
-            Case 3
-                Console.WriteLine("Please select the item you wish to use.")
-                p1.itemchoice = Console.ReadLine()
-                Call it1()
-            Case 4
-                Console.WriteLine(p1.name + " defends.")
-                p1.bloc = (p1.bloc + 5)
-                def1 = 1
-            Case 5
-                Console.WriteLine(p1.name + "'s stats:")
-                Console.WriteLine("Health: " + CStr(p1.HP))
-                Console.WriteLine("Mana: " + CStr(p1.MP))
-                Console.WriteLine("Strength: " + CStr(p1.str))
-                Console.WriteLine("Luck: " + CStr(p1.luk))
-                Console.WriteLine("Intelligence: " + CStr(p1.int))
-                Console.WriteLine("Agility: " + CStr(p1.agi))
-                Console.WriteLine("Defence: " + CStr(p1.bloc))
-                Console.ReadLine()
-                Console.Clear()
-                Call play1()
-            Case 6
-                Console.WriteLine("What do you want to call the file?")
-                Dim sdata As New _11038SaveData
-                Dim n As String = Console.ReadLine()
-                sdata = convertGameToSaveData(p1, p2, g)
-                _11038IO.writeSaveData(sdata, n)
-                If File.Exists(n + ".11038") Then
-                    Console.WriteLine("File written.")
-                    Console.ReadLine()
-                Else
-                    Console.WriteLine("Error: File not found, even though it should have been written.")
-                    Console.ReadLine()
-                End If
-        End Select
-
-        Console.Clear()
-        Call pre2()
-    End Sub
-    Sub pre2()
-        Dim bleedam2 As Integer
-        Dim bleecount2 As Integer
-        Dim paracount2 As Integer
-        Dim parachance2 As Integer
-        Dim confcount2 As Integer
-        Dim confact2 As Integer
-        Dim confdam2 As Integer
-        Dim poidam2 As Integer
-        Dim poicount2 As Integer
-        Dim doomcount2 As Integer
-        Dim creepdoom2 As Integer
-        Dim burcount2 As Integer
-        Dim burdam2 As Integer
-        Dim drencount2 As Integer
-        Dim drendra2 As Integer
-        Dim Timcount2 As Integer
-        Dim SLcount2 As Integer
-        Randomize()
-        If def2 = 1 Then
-            Console.WriteLine(p2.name + " relinquishes thier defence.")
-            p2.bloc = p2.def
-        End If
-        Select Case p2.afflic
-            Case 1
-                'poison'
-                If poicount2 > 4 Then
-                    Console.WriteLine(p2.name + " has treated the poison.")
-                    poicount2 = 0
-                    p2.afflic = 0
-                ElseIf poicount2 = 0 Then
-                    poidam2 = Int(Rnd() * 30 + 1)
-                    p2.HP = (p2.HP - poidam2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(poidam2) + " points worth of poison damage.")
-                    poicount2 = (poicount2 + 1)
-                Else
-                    p2.HP = (p2.HP - poidam2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(poidam2) + " points worth of poison damage.")
-                    poicount2 = (poicount2 + 1)
-                End If
-            Case 2
-                'bleed'
-                If bleecount2 > 4 Then
-                    Console.WriteLine(p2.name + " has stopped bleeding.")
-                    bleecount2 = 0
-                    p2.afflic = 0
-                ElseIf bleecount2 = 0 Then
-                    bleedam2 = Int(Rnd() * 20 + 1)
-                    p1.HP = (p2.HP - bleedam2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(bleedam2) + " points worth of bleed damage.")
-                    bleecount2 = (bleecount2 + 1)
-                Else
-                    p2.HP = (p2.HP - bleedam2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(bleedam2) + " points worth of bleed damage.")
-                    bleecount2 = (bleecount2 + 1)
-                End If
-            Case 3
-                'paralasys'
-                If paracount2 > 4 Then
-                    Console.WriteLine(p2.name + " has regained movement.")
-                    paracount2 = 0
-                    p2.afflic = 0
-                Else
-                    parachance2 = (Rnd() * 6 + 1)
-                    If parachance2 < 4 Then
-                        Console.WriteLine(p2.name + " is unable to act due to paralysis.")
-                        Console.ReadLine()
-                        Call pre1()
-                        paracount2 = (paracount2 + 1)
-                    Else
-                        paracount2 = (paracount2 + 1)
-                        Call play2()
-                    End If
-                End If
-            Case 5
-                'confusion'
-                If confcount2 > 4 Then
-                    Console.WriteLine(p2.name + " clears thier head of confusion.")
-                    confcount2 = 0
-                    p1.afflic = 0
-                Else
-                    confact2 = (Rnd() * 6 + 1)
-                    Select Case confact2
-                        Case 1
-                            Console.WriteLine(p2.name + "attacks in confusion!")
-                            confdam2 = Int((Rnd() * (p2.str) + 1) - (Rnd() * p1.bloc + 1))
-                            Console.WriteLine(p2.name + " has dealt " + CStr(confdam2) + " damage to " + p1.name)
-                            p1.HP = (p1.HP - confdam2)
-                        Case 2
-                            Console.WriteLine(p2.name + " casts in confusion!")
-                            sklsel = (Rnd() * 5 + 1)
-                            Select Case p2.classtype
-                                Case 1
-                                    Call warskl2()
-                                Case 2
-                                    Call magskl2()
-                                Case 3
-                                    Call thfskl2()
-                                Case 4
-                                    Call pstskl2()
-                                Case 5
-                                    Call rngskl2()
-                                Case 6
-                                    Call smnskl2()
-                                Case 7
-                                    Call dktskl2()
-                            End Select
-                        Case 3
-                            Console.WriteLine(p2.name + " uses a item in confusion!")
-
-                        Case 4
-                            Console.WriteLine(p2.name + " defends in confusion!")
-                            p2.bloc = (p2.bloc + 5)
-                            def2 = 1
-                        Case 5
-                            Console.WriteLine(p2.name + " is to confused to act!")
-                        Case 6
-                            Console.WriteLine(p2.name + " attacks themselves in a fit of confusion!")
-                            confdam2 = Int((Rnd() * (p2.str) + 1) - (Rnd() * p2.bloc + 1))
-                            Console.WriteLine(p2.name + " has dealt " + CStr(confdam2) + " damage to themselves!")
-                            p2.HP = (p2.HP - confdam2)
-                    End Select
-                    confcount2 = (confcount2 + 1)
-                End If
-            Case 6
-                'doom'
-                If doomcount2 > 4 Then
-                    p1.HP = 0
-                Else
-                    doomcount2 = (doomcount2 + 1)
-                    creepdoom2 = (5 - doomcount2)
-                    Console.WriteLine("The creeping doom approaches! It will get you in " + CStr(creepdoom2) + " turns...")
-                End If
-            Case 7
-                'Burned'
-                If burcount2 > 4 Then
-                    Console.WriteLine(p2.name + " has been extinguised.")
-                    p2.str = (p2.str + 3)
-                    burcount2 = 0
-                    p2.afflic = 0
-                ElseIf burcount2 = 0 Then
-                    burdam2 = Int(Rnd() * 20 + 1)
-                    p2.HP = (p2.HP - burdam2)
-                    p2.str = (p2.str - 3)
-                    Console.WriteLine(p2.name + " has taken " + CStr(burdam2) + " points worth of burn damage.")
-                    bleecount2 = (bleecount2 + 1)
-                Else
-                    p2.HP = (p2.HP - burdam2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(burdam2) + " points worth of burn damage.")
-                    bleecount2 = (bleecount2 + 1)
-                End If
-            Case 8
-                'Drench'
-                If drencount2 > 4 Then
-                    Console.WriteLine(p2.name + " has dried.")
-                    drencount2 = 0
-                    p2.afflic = 0
-                ElseIf drencount2 = 0 Then
-                    drendra2 = Int(Rnd() * 20 + 1)
-                    p2.MP = (p2.MP - drendra2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(drendra2) + " mana points worth of drench damage.")
-                    drencount2 = (drencount2 + 1)
-                Else
-                    p2.MP = (p2.MP - drendra2)
-                    Console.WriteLine(p2.name + " has taken " + CStr(drendra2) + " mana points worth of drench damage.")
-                    drencount2 = (drencount2 + 1)
-                End If
-            Case 9
-                'Time stop'
-                If Timcount2 > 3 Then
-                    Console.WriteLine("Time has returned for " + p2.name)
-                    p2.afflic = 0
-                    Timcount2 = 0
-                Else
-                    Console.WriteLine("Time has stopped for " + p2.name)
-                    Timcount2 = (Timcount2 + 1)
-                End If
-            Case 10
-                'Soul lock'
-                If SLcount2 > 4 Then
-                    Console.WriteLine(p2.name + " has broken all the Soul Locks! They are no longer Soul Locked!")
-                    SLcount2 = 0
-                    p2.afflic = 0
-                ElseIf SLcount2 < 4 Then
-                    Console.WriteLine(p2.name + " has broken a Soul Lock! There are " + CStr((5 - SLcount2)) + " Soul Locks left!")
-                    SLcount2 = (SLcount2 + 1)
-                End If
-            Case Else
-                Call play2()
-        End Select
-        If p2.HP <= 0 Then
-            Call ending()
-        End If
-        Console.ReadLine()
-        Call play2()
-    End Sub
-    Sub play2()
-        Dim dam2 As Integer
-        Dim menac2 As Integer
-        Dim blicount2 As Integer
-        Dim blichance2 As Integer
-        Randomize()
-
-        Console.WriteLine("Please select action " + p2.name)
-        Console.WriteLine("1. Attack")
-        Console.WriteLine("2. Abilities")
-        Console.WriteLine("3. Items")
-        Console.WriteLine("4. Defend")
-        Console.WriteLine("5. See stats")
-        Console.WriteLine("6. Save Game")
-        menac2 = Console.ReadLine()
-        Select Case menac2
-            Case 1
-                If p2.afflic = 4 Then
-                    If blicount2 > 4 Then
-                        Console.WriteLine(p2.name + " recovers from blindness.")
-                        blicount2 = 0
-                        dam2 = Int((Rnd() * (p2.str) + 1) - (Rnd() * p1.bloc + 1))
-                        Console.WriteLine(p2.name + " has dealt " + CStr(dam2) + " damage to " + p1.name)
-                        p1.HP = (p1.HP - dam2)
-                    Else
-                        blichance2 = (Rnd() * 6 + 1)
-                        If blichance2 < 4 Then
-                            Console.WriteLine(p2.name + " misses due to blindness!")
-                            blicount2 = (blicount2 + 1)
                         Else
-                            dam2 = Int((Rnd() * (p2.str) + 1) - (Rnd() * p1.bloc + 1))
-                            Console.WriteLine(p2.name + " has dealt " + CStr(dam2) + " damage to " + p1.name)
-                            p1.HP = (p1.HP - dam2)
-                            blicount2 = (blicount2 + 1)
+                            blichance = (Rnd() * 6 + 1)
+                            If blichance < 4 Then
+                                Console.WriteLine(playobj.name + " misses due to blindness!")
+                                blicount = (blicount + 1)
+                            Else
+                                dam1 = Int((Rnd() * (playobj.str) + 1) - (Rnd() * p2.bloc + 1))
+                                Console.WriteLine(playobj.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
+                                p2.HP = (p2.HP - dam1)
+                                blicount = (blicount + 1)
+                            End If
                         End If
+                    Else
+                        dam1 = Int((Rnd() * (playobj.str) + 1) - (Rnd() * p2.bloc + 1))
+                        Console.WriteLine(playobj.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
+                        p2.HP = (p2.HP - dam1)
                     End If
-                Else
-                    dam2 = Int((Rnd() * (p2.str) + 1) - (Rnd() * p1.bloc + 1))
-                    Console.WriteLine(p2.name + " has dealt " + CStr(dam2) + " damage to " + p1.name)
-                    p1.HP = (p1.HP - dam2)
-                End If
-                Console.ReadLine()
-            Case 2
-                Call ab2()
-            Case 3
-                Console.WriteLine("Please select the item you wish to use.")
-                p2.itemchoice = Console.ReadLine()
-                Call it2()
-            Case 4
-                Console.WriteLine(p2.name + " defends.")
-                p2.bloc = (p2.bloc + 5)
-                def2 = 1
-            Case 5
-                Console.WriteLine(p2.name + "'s stats:")
-                Console.WriteLine("Health: " + CStr(p2.HP))
-                Console.WriteLine("Mana: " + CStr(p2.MP))
-                Console.WriteLine("Strength: " + CStr(p2.str))
-                Console.WriteLine("Luck: " + CStr(p2.luk))
-                Console.WriteLine("Intelligence: " + CStr(p2.int))
-                Console.WriteLine("Agility: " + CStr(p2.agi))
-                Console.WriteLine("Defence: " + CStr(p2.bloc))
-                Console.ReadLine()
-                Console.Clear()
-                Call play2()
-            Case 6
-                Console.WriteLine("What do you want to call the file?")
-                Dim sdata As New _11038SaveData
-                Dim n As String = Console.ReadLine()
-                sdata = convertGameToSaveData(p1, p2, g)
-                _11038IO.writeSaveData(sdata, n)
-                If File.Exists(n + ".11038") Then
-                    Console.WriteLine("File written.")
                     Console.ReadLine()
-                Else
-                    Console.WriteLine("Error: File not found, even though it should have been written.")
+                Case 2
+                    Call ab1()
+                Case 3
+                    Console.WriteLine("Please select the item you wish to use.")
+                    playobj.itemchoice = Console.ReadLine()
+                    Call it1()
+                Case 4
+                    Console.WriteLine(playobj.name + " defends.")
+                    playobj.bloc = (playobj.bloc + 5)
+                    def1 = 1
+                Case 5
+                    Console.WriteLine(playobj.name + "'s stats:")
+                    Console.WriteLine("Health: " + CStr(playobj.HP))
+                    Console.WriteLine("Mana: " + CStr(playobj.MP))
+                    Console.WriteLine("Strength: " + CStr(playobj.str))
+                    Console.WriteLine("Luck: " + CStr(playobj.luk))
+                    Console.WriteLine("Intelligence: " + CStr(playobj.int))
+                    Console.WriteLine("Agility: " + CStr(playobj.agi))
+                    Console.WriteLine("Defence: " + CStr(playobj.bloc))
                     Console.ReadLine()
-                End If
-        End Select
+                    Console.Clear()
+                    Call play1()
+                Case 6
+                    Console.WriteLine("What do you want to call the file?")
+                    Dim sdata As New _11038SaveData
+                    Dim n As String = Console.ReadLine()
+                    sdata = convertGameToSaveData(p1, p2, g)
+                    _11038IO.writeSaveData(sdata, n)
+                    If File.Exists(n + ".11038") Then
+                        Console.WriteLine("File written.")
+                        Console.ReadLine()
+                    Else
+                        Console.WriteLine("Error: File not found, even though it should have been written.")
+                        Console.ReadLine()
+                    End If
+            End Select
+            g.gameturns += 1
+            Randomize()
 
-        Console.Clear()
-        If p1.HP <= 0 Then
-            Call ending()
-        End If
-        Call pre1()
+            Console.ReadLine()
+
+            Console.Clear()
+        Loop
     End Sub
+
     Sub ab1()
         Randomize()
 
