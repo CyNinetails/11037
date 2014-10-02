@@ -130,6 +130,10 @@ Module _11038IO
             Loop
 
             obj.savename = t(0)
+            If t(1) = 1 Then
+                Console.WriteLine("This game is too old.")
+                Exit Function
+            End If
             obj.saveversion = t(1)
             obj.saveturns = t(2)
             obj.s1name = t(3)
@@ -248,7 +252,7 @@ Module _11038Program
         obj.name = Console.ReadLine()
         Do
             Console.Clear()
-            assignCharacterInformation(p1, {
+            assignCharacterInformation(obj, {
                                                 randomNumber(100),
                                                 randomNumber(100),
                                                 randomNumber(30),
@@ -256,7 +260,7 @@ Module _11038Program
                                                 randomNumber(30),
                                                 randomNumber(20)
                                             })
-            displayCharacterInformation(p1)
+            displayCharacterInformation(obj)
             Console.WriteLine("Re-roll stats? (type 'yes' to reroll)")
             If Console.ReadLine() = "yes" Then
                 Console.WriteLine("Re-rolling stats")
@@ -427,11 +431,11 @@ Module _11038Program
                         If parachance < 4 Then
                             Console.WriteLine(playobj.name + " is unable to act due to paralysis.")
                             Console.ReadLine()
-                            Call pre2()
+                            Call game()
                             paracount = (paracount + 1)
                         Else
                             paracount = (paracount + 1)
-                            Call play1()
+                            Call game()
                         End If
                     End If
                 Case 5
@@ -626,7 +630,7 @@ Module _11038Program
                     Console.WriteLine("Defence: " + CStr(playobj.bloc))
                     Console.ReadLine()
                     Console.Clear()
-                    Call play1()
+                    Call game()
                 Case 6
                     Console.WriteLine("What do you want to call the file?")
                     Dim sdata As New _11038SaveData
@@ -641,12 +645,19 @@ Module _11038Program
                         Console.ReadLine()
                     End If
             End Select
+
+            If (g.gameturns / 2).ToString.Contains(".") Then
+                p1 = playobj
+                p2 = oppobj
+            Else
+                p2 = playobj
+                p1 = oppobj
+            End If
             g.gameturns += 1
             Randomize()
 
             Console.ReadLine()
-
-            Console.Clear()
+            ending()
         Loop
     End Sub
 
@@ -657,7 +668,7 @@ Module _11038Program
             Console.WriteLine("The Soul Lock on you prevents you from using your abilities!")
             Console.ReadLine()
             Console.Clear()
-            Call play1()
+            Call game()
         Else
             Console.WriteLine("Current mana: " + CStr(p1.MP))
             Select Case p1.classtype
@@ -759,7 +770,7 @@ Module _11038Program
             Console.WriteLine("The Soul Locks on you prevent you from using your abilities!")
             Console.ReadLine()
             Console.Clear()
-            Call play2()
+            Call game()
         Else
             Console.WriteLine("Current mana: " + CStr(p2.MP))
             Select Case p2.classtype
