@@ -178,7 +178,7 @@ Module _11038Program
     Dim p2 As New _11038Player
     Dim g As New _11038GameData
 
-    
+
     Function returnPlayerObjectData(ByVal obj As _11038Player)
         Return {obj.HP, obj.MP, obj.str, obj.luk, obj.int, obj.agi, obj.def, obj.classtype}
     End Function
@@ -622,7 +622,6 @@ Module _11038Program
                         Console.WriteLine(playobj.name + " has dealt " + CStr(dam1) + " damage to " + p2.name)
                         p2.HP = (p2.HP - dam1)
                     End If
-                    Console.ReadLine()
                 Case 2
                     Call ab1()
                 Case 3
