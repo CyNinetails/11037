@@ -7,4 +7,10 @@ _"umm umm umm Banana"_ - CyNinetails, creator of 11037
 
 # Compiling
 
-Compiling requires VB .NET 2010; it might work on Mono.
+Compiling requires Visual Basic 2010 or later; it might work on Mono.
+
+## Confirmed Working On:
+
+* Visual Basic 2010 Express
+* Visual Basic 2013 Express
+* Visual Basic 2013 Express Intergrated Shell Mode
